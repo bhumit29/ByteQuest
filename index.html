@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#10131d">
+  <title>ByteQuest — Learn by playing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="backend.js" defer></script>
+</head>
+<body>
+  <main class="auth-screen" id="auth-screen">
+    <form class="auth-card" id="auth-form">
+      <a class="brand auth-brand" href="#" aria-label="ByteQuest home">
+        <span class="brand-mark">&lt;/&gt;</span>
+        <span>byte<span class="brand-light">quest</span></span>
+      </a>
+      <p class="date-line">WELCOME TO BYTEQUEST</p>
+      <h1 id="auth-title">Sign in to your <span>classroom.</span></h1>
+      <p class="auth-copy">Continue learning, or manage coding quests for your class.</p>
+      <label class="auth-field hidden" id="auth-name-field">Your name
+        <input id="auth-name" name="name" autocomplete="name" maxlength="40">
+      </label>
+      <label class="auth-field">Email
+        <input id="auth-email" name="email" type="email" autocomplete="email" required maxlength="254">
+      </label>
+      <label class="auth-field">Password
+        <input id="auth-password" name="password" type="password" autocomplete="current-password" required minlength="8" maxlength="128">
+      </label>
+      <label class="auth-field">I am a
+        <select id="auth-role" name="role">
+          <option value="student">Student</option>
+          <option value="teacher">Teacher</option>
+        </select>
+      </label>
+      <p class="auth-error" id="auth-error" role="alert"></p>
+      <button class="primary-button auth-submit" id="auth-submit" type="submit">Sign in <span>→</span></button>
+      <p class="auth-switch-copy"><span id="auth-switch-prompt">New to ByteQuest?</span> <button class="auth-switch" id="auth-switch" type="button">Create an account</button></p>
+    </form>
+  </main>
+  <div class="app-shell hidden" id="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="ByteQuest home">
+        <span class="brand-mark">&lt;/&gt;</span>
+        <span>byte<span class="brand-light">quest</span></span>
+      </a>
+
+      <div class="sidebar-label">YOUR SPACE</div>
+      <nav class="main-nav" aria-label="Main navigation">
+        <button class="nav-link active" data-view="dashboard"><span class="nav-icon">◫</span> Dashboard</button>
+        <button class="nav-link" data-view="learn"><span class="nav-icon">⌘</span> Learning path</button>
+        <button class="nav-link" data-view="leaderboard"><span class="nav-icon">♜</span> Leaderboard</button>
+      </nav>
+
+      <div class="sidebar-label classroom-label">CLASSROOM</div>
+      <button class="classroom-card" id="classroom-shortcut">
+        <span class="classroom-icon">Py</span>
+        <span><strong>Python Pioneers</strong><small>Room 204 · 24 players</small></span>
+        <span class="online-dot"></span>
+      </button>
+
+      <div class="sidebar-spacer"></div>
+      <div class="sidebar-tip">
+        <span class="tip-spark">✳</span>
+        <strong>Little steps.<br>Big breakthroughs.</strong>
+        <span>Keep your streak alive today.</span>
+      </div>
+      <button class="profile-button" id="profile-button">
+        <span class="avatar">JD</span>
+        <span><strong id="profile-name">Jamie Davis</strong><small id="profile-level">Level 01 · Explorer</small></span>
+        <span class="profile-menu">···</span>
+      </button>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="breadcrumb"><span>Classroom</span><b>/</b><strong id="breadcrumb-page">Dashboard</strong></div>
+        <div class="topbar-actions">
+          <button class="icon-button notification-button" aria-label="Notifications">♧<span></span></button>
+          <div class="topbar-divider"></div>
+          <div class="streak"><span>♨</span><strong id="streak-count">4</strong><small>day streak</small></div>
+          <div class="xp-pill"><span>✦</span><strong id="xp-count">1,240</strong><small>XP</small></div>
+          <button class="signout-button" id="logout-button" type="button">Sign out</button>
+        </div>
+      </header>
+
+      <section class="mode-strip">
+        <div class="mode-copy">
+          <span class="eyebrow">YOUR CLASSROOM, YOUR WAY</span>
+          <h1>Choose your <span>adventure.</span></h1>
+        </div>
+        <div class="mode-switch" role="tablist" aria-label="Choose a workspace">
+          <button class="mode-option selected" id="student-mode" role="tab" aria-selected="true">🎮 <span>Student</span></button>
+          <button class="mode-option" id="teacher-mode" role="tab" aria-selected="false">🧑‍🏫 <span>Teacher</span></button>
+        </div>
+      </section>
+
+      <section class="student-view" id="student-view">
+        <div class="welcome-row">
+          <div>
+            <p class="date-line" id="today-date">THURSDAY, OCTOBER 15</p>
+            <h2>Hey <span id="student-name">Jamie Davis</span>, ready to <span>level up?</span> <span class="wave">✦</span></h2>
+            <p class="welcome-subtitle">Your next coding win is just one quest away.</p>
+          </div>
+          <div class="level-card">
+            <div class="level-top"><span>YOUR PROGRESS</span><strong id="level-label">LVL 01</strong></div>
+            <div class="level-progress"><span id="level-progress-bar"></span></div>
+            <div class="level-bottom"><span id="level-xp">0 XP</span><span id="next-level-xp">200 XP to level 2</span></div>
+          </div>
+        </div>
+
+        <div class="student-grid">
+          <section class="quest-card">
+            <div class="quest-card-top">
+              <div class="quest-tag"><span class="live-dot"></span> TODAY'S QUEST</div>
+              <span class="quest-dots">•••</span>
+            </div>
+            <div class="quest-art" aria-hidden="true">
+              <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+              <div class="python-orb"><span>Py</span></div>
+              <span class="code-float code-one">for x in range(5):</span>
+              <span class="code-float code-two">print("hello!")</span>
+              <span class="spark spark-one">✦</span><span class="spark spark-two">✧</span>
+            </div>
+            <div class="quest-content">
+              <div class="quest-meta"><span id="quest-language-label">CODING QUEST</span><span>⏱ &nbsp;12 MIN</span></div>
+              <h3 id="quest-title">Loop-de-loop</h3>
+              <p id="quest-description">Make repetition your superpower. Master <strong>for loops</strong> and put your code on repeat.</p>
+              <div class="quest-stats"><span>◎ &nbsp;<span id="quest-question-count">4</span> questions + challenge</span><span>✦ &nbsp;Up to 150 XP</span></div>
+              <button class="primary-button" id="start-quest">Start this quest <span>→</span></button>
+            </div>
+          </section>
+
+          <div class="right-column">
+            <section class="daily-card">
+              <div class="card-heading"><div><span class="section-kicker">YOUR DAILY GOAL</span><h3>You're on a roll!</h3></div><span class="target-icon">◎</span></div>
+              <div class="daily-progress-row"><div class="daily-progress"><span></span></div><strong id="daily-progress-label">2 / 3</strong></div>
+              <p>One more quest to hit today's goal.</p>
+              <div class="daily-footer"><span>🔥 &nbsp;<span id="streak-days">0</span>-day streak</span><span>Keep it going!</span></div>
+            </section>
+            <section class="activity-card">
+              <div class="card-heading"><div><span class="section-kicker">RECENT ACTIVITY</span><h3>Your wins</h3></div><button class="text-button" data-view="learn">See all →</button></div>
+              <div id="activities-list"><p class="empty-activity">Your completed quests will show up here.</p></div>
+            </section>
+          </div>
+        </div>
+
+        <section class="class-banner">
+          <div class="class-banner-icon">Py</div>
+          <div><span class="section-kicker">FROM YOUR TEACHER</span><h3 id="class-banner-title">No new class quests — yet!</h3><p id="class-banner-copy">When your teacher shares a lesson, it’ll show up right here.</p></div>
+          <button class="secondary-button" id="find-class">Explore class quests <span>→</span></button>
+        </section>
+
+        <section class="lower-grid">
+          <div class="section-title-row"><div><span class="section-kicker">KEEP THE MOMENTUM</span><h3>Pick up where you left off</h3></div><button class="text-button" data-view="learn">View learning path →</button></div>
+          <div class="path-card">
+            <div class="path-icon">⌘</div><div class="path-detail"><span>CODING BASICS · UNIT 04</span><strong>Core programming concepts</strong><div class="path-progress"><span></span></div></div><span class="path-percent">68%</span><button class="round-arrow" id="resume-path" aria-label="Resume learning path">→</button>
+          </div>
+        </section>
+      </section>
+
+      <section class="teacher-view hidden" id="teacher-view">
+        <div class="teacher-heading">
+          <div><p class="date-line">TEACHER STUDIO</p><h2>Build a quest from <span>your lesson.</span></h2><p class="welcome-subtitle">Upload today's lecture and ByteQuest will turn it into a game.</p></div>
+          <span class="teacher-badge">✦ &nbsp;CLASSROOM BUILDER</span>
+        </div>
+        <div class="teacher-grid">
+          <section class="upload-card">
+            <div class="upload-card-heading"><div><span class="section-kicker">01 — YOUR MATERIAL</span><h3>Start with a lecture</h3></div><span class="step-icon">↑</span></div>
+            <p class="upload-copy">Drop in today's PDF. We'll find the key coding concept and create a quick quiz plus a hands-on challenge.</p>
+            <label class="language-field" for="quest-language">Coding language
+              <select id="quest-language">
+                <option value="python">Python</option>
+                <option value="javascript">JavaScript</option>
+                <option value="java">Java</option>
+                <option value="c">C</option>
+                <option value="cpp">C++</option>
+                <option value="csharp">C#</option>
+                <option value="go">Go</option>
+                <option value="ruby">Ruby</option>
+              </select>
+            </label>
+            <label class="drop-zone" id="drop-zone" for="pdf-upload">
+              <span class="upload-symbol">↑</span><strong id="upload-title">Drop your lecture PDF here</strong><span id="upload-help">or <u>browse files</u> · PDF up to 20 MB</span>
+              <input type="file" id="pdf-upload" accept="application/pdf,.pdf" hidden>
+            </label>
+            <div class="upload-footnote"><span>♧</span> The server reads your PDF to build a quest and does not keep the file.</div>
+            <button class="primary-button generate-button" id="generate-quest" disabled>Generate classroom quest <span>✦</span></button>
+            <p class="form-message" id="upload-message" role="status" aria-live="polite"></p>
+          </section>
+          <section class="preview-card">
+            <div class="preview-heading"><div><span class="section-kicker">02 — QUEST PREVIEW</span><h3>Your game plan</h3></div><span class="draft-badge" id="preview-status">WAITING FOR PDF</span></div>
+            <div class="preview-empty" id="preview-empty"><div class="empty-illustration"><span>⌘</span><i>✦</i></div><strong>Your quest is taking a nap.</strong><p>Upload a lecture PDF to wake it up.</p></div>
+            <div class="preview-content hidden" id="preview-content">
+              <div class="preview-quest-title"><span class="preview-python">⌘</span><div><small id="preview-language-label">CODING QUEST</small><h4 id="preview-quest-name">Loop-de-loop</h4></div></div>
+              <p id="preview-quest-description">A new quest built around your lesson.</p>
+              <div class="preview-steps"><div><span class="step-number">1</span><span><strong>Quick-fire quiz</strong><small id="preview-question-count">4 multiple-choice questions</small></span><b>+80 XP</b></div><div><span class="step-number">2</span><span><strong>Coding challenge</strong><small id="preview-challenge-title">Build a loop</small></span><b>+70 XP</b></div></div>
+              <button class="primary-button publish-button" id="publish-quest">Publish to students <span>→</span></button>
+              <button class="remove-button" id="remove-pdf">Remove PDF</button>
+            </div>
+          </section>
+        </div>
+        <section class="teacher-bottom">
+          <div class="teacher-tip-icon">✳</div><div><strong>A little teacher magic</strong><p>ByteQuest reads your PDF on the classroom server and builds a starter quest using lesson keywords. Review the questions before sharing with your class.</p></div>
+        </section>
+      </section>
+
+      <section class="secondary-view hidden" id="secondary-view">
+        <div class="teacher-heading"><div><p class="date-line" id="secondary-kicker">YOUR LEARNING PATH</p><h2 id="secondary-title">Keep collecting <span>small wins.</span></h2><p class="welcome-subtitle" id="secondary-subtitle">Your next stop is waiting.</p></div></div>
+        <div class="secondary-card" id="secondary-card"></div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop hidden" id="game-modal" role="dialog" aria-modal="true" aria-labelledby="game-title">
+    <section class="game-modal">
+      <h2 class="sr-only" id="game-title">Coding quest</h2>
+      <button class="modal-close" id="close-game" aria-label="Close quest">×</button>
+      <div class="game-progress-row"><span id="game-step-label">QUESTION 1 OF 4</span><span id="game-xp-label">✦ &nbsp;0 XP</span></div>
+      <div class="game-progress"><span id="game-progress-bar"></span></div>
+      <div id="game-stage"></div>
+    </section>
+  </div>
+  <div class="toast hidden" id="toast" role="status"></div>
+</body>
+</html>
